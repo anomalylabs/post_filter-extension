@@ -1,0 +1,40 @@
+{
+    "name": "anomaly/post_filter-extension",
+    "type": "streams-addon",
+    "description": "A POST submission content filter.",
+    "keywords": [
+        "streams extension",
+        "SPAM control",
+        "extension"
+    ],
+    "homepage": "http://pyrocms.com/",
+    "license": "MIT",
+    "assets": {
+        "icon": "marketplace/icon.jpg"
+    },
+    "authors": [
+        {
+            "name": "PyroCMS, Inc.",
+            "email": "support@pyrocms.com",
+            "homepage": "http://pyrocms.com/",
+            "role": "Owner"
+        },
+        {
+            "name": "Ryan Thompson",
+            "email": "ryan@pyrocms.com",
+            "homepage": "http://ryanthepyro.com/",
+            "role": "Owner"
+        }
+    ],
+    "support": {
+        "email": "support@pyrocms.com"
+    },
+    "require": {
+        "anomaly/streams-platform": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Anomaly\\PostFilterExtension\\": "src/"
+        }
+    }
+}
