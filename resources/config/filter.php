@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'blacklist' => explode(',', env('POST_FILTER_BLACKLIST')),
+    'blacklist' => array_filter(explode(',', env('POST_FILTER_BLACKLIST'))),
 ];

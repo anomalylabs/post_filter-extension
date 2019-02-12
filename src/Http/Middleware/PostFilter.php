@@ -27,19 +27,39 @@ class PostFilter
             return $next($request);
         }
 
-        if (!$request->post()) {
+        if (!$request->is('POST')) {
             return $next($request);
         }
 
-        $blacklist = config('anomaly.extension.post_filter::filter.blacklist');
+        if (!$blacklist = config('anomaly.extension.post_filter::filter.blacklist')) {
+            return $next($request);
+        }
 
         if (is_string($blacklist)) {
             $blacklist = explode("\r\n", $blacklist);
         }
 
-        foreach ($request->post() as $key => $value) {
+        $blacklist = array_filter(
+            (array)$blacklist,
+            function ($item) {
+                return !empty(trim($item));
+            }
+        );
+
+        $post = array_filter(
+            $request->post(),
+            function ($value) {
+                return !empty(trim($value));
+            }
+        );
+
+        if (!$blacklist || !$post) {
+            return $next($request);
+        }
+
+        foreach ($post as $key => $value) {
             foreach ($blacklist as $term) {
-                if (strpos(strtolower((string)$value), strtolower((string)$term)) !== false) {
+                if (strpos(strtolower($value), strtolower($term)) !== false) {
                     abort(422, trans('anomaly.extension.post_filter::message.blacklist_error'));
                 }
             }
