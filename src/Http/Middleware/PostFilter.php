@@ -27,7 +27,7 @@ class PostFilter
             return $next($request);
         }
 
-        if (!$request->is('POST')) {
+        if ($request->method() != 'POST') {
             return $next($request);
         }
 
