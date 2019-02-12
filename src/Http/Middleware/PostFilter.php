@@ -39,7 +39,7 @@ class PostFilter
 
         foreach ($request->post() as $key => $value) {
             foreach ($blacklist as $term) {
-                if (strpos(strtolower($value), strtolower($term)) !== false) {
+                if (strpos(strtolower((string)$value), strtolower((string)$term)) !== false) {
                     abort(422, trans('anomaly.extension.post_filter::message.blacklist_error'));
                 }
             }
