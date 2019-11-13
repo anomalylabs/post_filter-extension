@@ -1,4 +1,6 @@
-<?php namespace Anomaly\PostFilterExtension\Http\Middleware;
+<?php
+
+namespace Anomaly\PostFilterExtension\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -40,7 +42,7 @@ class PostFilter
         }
 
         $blacklist = array_filter(
-            (array)$blacklist,
+            (array) $blacklist,
             function ($item) {
                 return !empty(trim($item));
             }
@@ -49,6 +51,11 @@ class PostFilter
         $post = array_filter(
             $request->post(),
             function ($value) {
+
+                if (is_array($value)) {
+                    return !empty(array_filter($value));
+                }
+
                 return !empty(trim($value));
             }
         );
@@ -59,7 +66,7 @@ class PostFilter
 
         foreach ($post as $key => $value) {
             foreach ($blacklist as $term) {
-                if (strpos(strtolower($value), strtolower($term)) !== false) {
+                if (is_string($value) && strpos(strtolower($value), strtolower($term)) !== false) {
                     abort(422, trans('anomaly.extension.post_filter::message.blacklist_error'));
                 }
             }
